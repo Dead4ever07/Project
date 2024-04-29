@@ -56,7 +56,6 @@ namespace svg
         Color stroke_;
     };
 
-
     class Line : public Polyline{
         Line(const Point &uno, const Point &dos, const Color &stroke);
         void draw(PNGImage &img) const override;
@@ -65,6 +64,7 @@ namespace svg
         Point uno_;
         Point dos_;
     };
+
 
     class Polygon : public SVGElement
     {
@@ -75,6 +75,18 @@ namespace svg
     private:
         Color fill_;
         std::vector<Point> points_;
+    };
+
+    class Rectangle : public Polygon
+    {
+    public:
+        Rectangle(const Point &point, const int &width, const int &height, const Color &fill);
+        void draw(PNGImage &img) const override;
+
+    private:
+        Point point_;
+        int width_;
+        int heigtht_;
     };
 }
 #endif
