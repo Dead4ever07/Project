@@ -85,8 +85,6 @@ namespace svg
 
     private:
         Point point_;
-        int width_;
-        int heigtht_;
     };
 }
 #endif
