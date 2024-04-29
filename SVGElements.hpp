@@ -38,16 +38,6 @@ namespace svg
         Point center;
         Point radius;
     };
-    class Polygon : public SVGElement
-    {
-    public:
-        Polygon(const std::vector<Point> &points, const Color &fill);
-        void draw(PNGImage &img) const override;
-
-    private:
-        Color fill_;
-        std::vector<Point> points_;
-    };
 
 
 }
