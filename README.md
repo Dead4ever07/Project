@@ -14,4 +14,21 @@ Identify all group elements (numbers and names).
 
 Brief summary of what you implemented.
 
+class Polyline : public SVGElement{
+    public:
+        Polyline(const std::vector<Point> points, const Color stroke);
+        void draw(PNGImage &img) const override;
 
+    private:
+        Color stroke_;
+    };
+
+
+    class Line : public Polyline{
+        Line(const Point &uno, const Point &dos, const Color &stroke);
+        void draw(PNGImage &img) const override;
+
+    private:
+        Point uno_;
+        Point dos_;
+    };
