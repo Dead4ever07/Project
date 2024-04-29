@@ -56,5 +56,7 @@ namespace svg
         std::vector<Point> points_;
 
     };
+
+
 }
 #endif
