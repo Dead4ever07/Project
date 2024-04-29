@@ -44,7 +44,5 @@ namespace svg
         Circle(const Color &fill, const Point &center, const int &radius);
         void draw(PNGImage &img) const override;
     };
-    
-
 }
 #endif
