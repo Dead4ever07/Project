@@ -83,8 +83,7 @@ namespace svg
         Rectangle(const Point &point, const int &width, const int &height, const Color &fill);
         void draw(PNGImage &img) const override;
 
-    private:
-        Point point_;
+
     };
 }
 #endif
