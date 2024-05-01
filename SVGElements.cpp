@@ -17,9 +17,10 @@ namespace svg
     {
         img.draw_ellipse(center, radius, fill);
     }
+    
     Circle::Circle(const Color &fill,
                    const Point &center,
                    const int &radius)
         :Ellipse(fill,center, {radius,radius}){};
-
+    
 }
