@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <sstream>
 #include "SVGElements.hpp"
 #include "external/tinyxml2/tinyxml2.h"
 
@@ -14,25 +15,48 @@ namespace svg
         elem->Name();
         for (XMLElement *child = elem->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
         {
+            if(child->FirstChildElement()!= nullptr)
+            {
+            dump(child, svg_elements);
 
-            string name = elem->Name();
+            }
+            string name = child->Name();
             vector<const XMLAttribute*> attributs;
-            /*for (const XMLAttribute *attr = elem->FirstAttribute(); attr != nullptr; attr = attr->Next())
-            {
-                attributs.push_back(attr);
-            }*/
-            if( name == "ellipse")
-            {
+
+            if( name == "ellipse"){
+                Ellipse* ellipse_1 = new Ellipse( parse_color(child->Attribute("fill")),{child->IntAttribute("cx"),child->IntAttribute("cy")}, {child->IntAttribute("rx"),child->IntAttribute("ry")});
+                svg_elements.push_back(ellipse_1);
             }
             else if(name == "circle")
             {
                 
-                cout<<elem->Attribute("fill")<<' '<<elem->IntAttribute("cx")<<' '<<elem->IntAttribute("cy")<<' '<< elem->IntAttribute("r")<<endl;
-                Circle* node = new Circle( parse_color(elem->Attribute("fill")),{elem->IntAttribute("cx"),elem->IntAttribute("cy")}, elem->IntAttribute("r"));
+                Circle* node = new Circle( parse_color(child->Attribute("fill")),{child->IntAttribute("cx"),child->IntAttribute("cy")}, child->IntAttribute("r"));
                 svg_elements.push_back(node);
             }
+            else if(name == "polyline")
+            {
+                string p = elem->Attribute("points");
+                for(char &c: p)
+                {
+                    const char &t = ',';
+                    const char &v = ' ';
+                    if(c == t){c = v;}
+                }
+                istringstream in (p);
+                vector<Point> vector_p;
+                int n;
+                int v;
+                while (in>>n)
+                {
+                    in>>v;
+                    vector_p.push_back({n,v});
+                }
+                 
+                Polyline* polyl = new Polyline(vector_p,parse_color(child->Attribute("stroke")));
+                svg_elements.push_back(polyl);
+            }
 
-            dump(child, svg_elements);
+
         }
     }
     void readSVG(const string& svg_file, Point& dimensions, vector<SVGElement *>& svg_elements)
@@ -48,12 +72,9 @@ namespace svg
         dimensions.x = xml_elem->IntAttribute("width");
         dimensions.y = xml_elem->IntAttribute("height");
 
-        if(xml_elem->FirstChildElement() != nullptr)
-        {
 
-        dump(xml_elem->FirstChildElement(), svg_elements);
-        }
-
+        dump(xml_elem, svg_elements);
+        
         // TODO complete code -->
         
     }
