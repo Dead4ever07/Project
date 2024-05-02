@@ -12,7 +12,6 @@ namespace svg
     void dump(XMLElement *elem, vector<SVGElement *>& svg_elements)
     {
 
-        elem->Name();
         for (XMLElement *child = elem->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
         {
             if(child->FirstChildElement()!= nullptr)
@@ -35,7 +34,7 @@ namespace svg
             }
             else if(name == "polyline")
             {
-                string p = elem->Attribute("points");
+                string p = child->Attribute("points");
                 for(char &c: p)
                 {
                     const char &t = ',';
@@ -54,6 +53,40 @@ namespace svg
                  
                 Polyline* polyl = new Polyline(vector_p,parse_color(child->Attribute("stroke")));
                 svg_elements.push_back(polyl);
+            }
+            else if(name == "line")
+            {
+                Line* line = new Line({child->IntAttribute("x1"),child->IntAttribute("y1")},{child->IntAttribute("x2"),child->IntAttribute("y2")},parse_color(child->Attribute("stroke")));
+                svg_elements.push_back(line);
+            }
+            else if(name == "polygon")
+            {
+                                string p = child->Attribute("points");
+                for(char &c: p)
+                {
+                    const char &t = ',';
+                    const char &v = ' ';
+                    if(c == t){c = v;}
+                }
+                istringstream in (p);
+                vector<Point> vector_p;
+                int n;
+                int v;
+                while (in>>n)
+                {
+                    in>>v;
+                    vector_p.push_back({n,v});
+                }
+                 
+                Polygon* polyg = new Polygon(vector_p,parse_color(child->Attribute("fill")));
+                svg_elements.push_back(polyg);
+                
+            }
+            else if(name == "rect")
+            {
+
+                Rectangle* rectangle = new Rectangle({child->IntAttribute("x"),child->IntAttribute("y")},child->IntAttribute("width"),child->IntAttribute("height"),parse_color(child->Attribute("fill")));
+                svg_elements.push_back(rectangle);
             }
 
 

@@ -57,7 +57,8 @@ namespace svg
     };
 
     class Line : public Polyline{
-        Line(const Point &uno, const Point &dos, const Color &stroke);
+    public:
+        Line(const Point &first, const Point &second, const Color &stroke);
 
 
     private:
@@ -85,5 +86,5 @@ namespace svg
 
 
     };
-};
+}
 #endif
