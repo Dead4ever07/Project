@@ -34,11 +34,10 @@ namespace svg
             img.draw_line(points_[i], points_[i+1], stroke_);
         }
     }
-
-    Line::Line(const svg::Point &uno,
-               const svg::Point &dos,
+    Line::Line(const svg::Point &first,
+               const svg::Point &second,
                const svg::Color &stroke)
-       : Polyline(std::vector<Point> {uno, dos}, stroke)
+       : Polyline(std::vector<Point> {first, second}, stroke)
     {
     }
 
@@ -56,10 +55,9 @@ namespace svg
                          const int &width,
                          const int &height,
                          const svg::Color &fill)
-         : Polygon(std::vector<Point> {point, {point.x + width, point.y}, {point.x + width, point.y - height}, {point.x, point.y - height}}, fill)
+         : Polygon(std::vector<Point> {point, {point.x + width-1, point.y}, {point.x + width-1, point.y + height-1}, {point.x, point.y + height-1}}, fill)
     {
     }
-
 }
 
 

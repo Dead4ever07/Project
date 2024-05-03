@@ -59,8 +59,13 @@ namespace svg
     };
 
     class Line : public Polyline{
-        Line(const Point &uno, const Point &dos, const Color &stroke);
+    public:
+        Line(const Point &first, const Point &second, const Color &stroke);
 
+
+    private:
+        Point First_;
+        Point Second_;
     };
 
 
@@ -79,7 +84,6 @@ namespace svg
     {
     public:
         Rectangle(const Point &point, const int &width, const int &height, const Color &fill);
-        
     };
 }
 #endif
