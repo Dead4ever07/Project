@@ -15,6 +15,13 @@ namespace svg
         SVGElement();
         virtual ~SVGElement();
         virtual void draw(PNGImage &img) const = 0;
+        virtual void translate(const Point &center, const Point&t) const = 0;
+        virtual void translate(const std::vector<Point> &points, const Point&t) const = 0;        
+        virtual void rotate(const Point &center, const Point &origin, int degrees) const = 0;
+        virtual void rotate(const std::vector<Point> &points, const Point &origin, int degrees) const = 0;
+        virtual void scale(const Point &center, const Point&origin, int v) const = 0;
+        virtual void scale(const std::vector<Point> &points, const Point&origin, int v) const = 0;
+
     };
 
     // Declaration of namespace functions
@@ -32,11 +39,14 @@ namespace svg
     public:
         Ellipse(const Color &fill, const Point &center, const Point &radius);
         void draw(PNGImage &img) const override;
+        void translate(const Point &center, const Point&t) const override;
+        void rotate(const Point &center, const Point &origin, int degrees) const override;
+        void scale(const Point &center, const Point&origin, int v) const override;
 
     private:
-        Color fill;
-        Point center;
-        Point radius;
+        Color fill_;
+        Point center_;
+        Point radius_;
     };
 
     class Circle : public Ellipse
@@ -50,6 +60,9 @@ namespace svg
     public:
         Polyline(const std::vector<Point> &points, const Color &stroke);
         void draw(PNGImage &img) const override;
+        void translate(const std::vector<Point> &points, const Point&t) const override;
+        void rotate(const std::vector<Point> &points, const Point &origin, int degrees) const override;
+        void scale(const std::vector<Point> &points, const Point&origin, int v) const override;
 
     private:
         std::vector<Point> points_;
@@ -72,6 +85,9 @@ namespace svg
     public:
         Polygon(const std::vector<Point> &points, const Color &fill);
         void draw(PNGImage &img) const override;
+        void translate(const std::vector<Point> &points, const Point&t) const override;
+        void rotate(const std::vector<Point> &points, const Point &origin, int degrees) const override;
+        void scale(const std::vector<Point> &points, const Point&origin, int v) const override;
 
     private:
         std::vector<Point> points_;
@@ -82,8 +98,6 @@ namespace svg
     {
     public:
         Rectangle(const Point &point, const int &width, const int &height, const Color &fill);
-
-
 
     };
 }

@@ -14,11 +14,6 @@ namespace svg
 
         for (XMLElement *child = elem->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
         {
-            if(child->FirstChildElement()!= nullptr)
-            {
-            dump(child, svg_elements);
-
-            }
             string name = child->Name();
             vector<const XMLAttribute*> attributs;
 
@@ -87,6 +82,11 @@ namespace svg
 
                 Rectangle* rectangle = new Rectangle({child->IntAttribute("x"),child->IntAttribute("y")},child->IntAttribute("width"),child->IntAttribute("height"),parse_color(child->Attribute("fill")));
                 svg_elements.push_back(rectangle);
+            }
+
+            if(child->FirstChildElement()!= nullptr)
+            {
+            dump(child, svg_elements);
             }
 
 
