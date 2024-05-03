@@ -36,7 +36,11 @@ namespace svg
                    const int &radius)
         :Ellipse(fill,center, {radius,radius}){};
 
-    Polyline::Polyline(const std::vector<Point> &points,const Color &stroke):points_(points), stroke_(stroke){}
+    Polyline::Polyline(const std::vector<Point> &points,
+                       const Color &stroke)
+       : points_(points), stroke_(stroke)
+    {
+    }
     void Polyline::draw(PNGImage &img) const
     {
         size_t len = points_.size();
@@ -45,6 +49,7 @@ namespace svg
             img.draw_line(points_[i], points_[i+1], stroke_);
         }
     }
+
     void Polyline::translate(const std::vector<Point> &points, const Point&t) const
     {
         for(Point p:points)
@@ -66,6 +71,7 @@ namespace svg
             p.scale(origin,v);
         }
     }
+
 
 
     Line::Line(const svg::Point &first,
@@ -115,7 +121,6 @@ namespace svg
          : Polygon(std::vector<Point> {point, {point.x + width-1, point.y}, {point.x + width-1, point.y + height-1}, {point.x, point.y + height-1}}, fill)
     {
     }
-
 }
 
 

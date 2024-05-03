@@ -67,6 +67,8 @@ namespace svg
     private:
         std::vector<Point> points_;
         Color stroke_;
+
+        void draw(PNGImage &img);
     };
 
     class Line : public Polyline{
@@ -102,3 +104,4 @@ namespace svg
     };
 }
 #endif
+

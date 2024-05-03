@@ -9,8 +9,13 @@ using namespace tinyxml2;
 
 namespace svg
 {
+    // dump is a recursive function that in each recursion step gets the child 
+    // of the previouse element while there are children to iterate trhough
     void dump(XMLElement *elem, vector<SVGElement *>& svg_elements)
     {
+        //after get to the base child(the child wich doesnt have any children) it iterates trhough them 
+        //after iterating trought each child, then gets to the end of the for loop, and return trhought the father of those children
+        //then it iterates to the next element with the same deapth and if the element has any children it repeats the process
 
         for (XMLElement *child = elem->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
         {
@@ -30,19 +35,14 @@ namespace svg
             else if(name == "polyline")
             {
                 string p = child->Attribute("points");
-                for(char &c: p)
-                {
-                    const char &t = ',';
-                    const char &v = ' ';
-                    if(c == t){c = v;}
-                }
                 istringstream in (p);
                 vector<Point> vector_p;
                 int n;
                 int v;
+                char trash;
                 while (in>>n)
                 {
-                    in>>v;
+                    in>>trash>>v;
                     vector_p.push_back({n,v});
                 }
                  
@@ -56,20 +56,15 @@ namespace svg
             }
             else if(name == "polygon")
             {
-                                string p = child->Attribute("points");
-                for(char &c: p)
-                {
-                    const char &t = ',';
-                    const char &v = ' ';
-                    if(c == t){c = v;}
-                }
+                string p = child->Attribute("points");
                 istringstream in (p);
                 vector<Point> vector_p;
                 int n;
                 int v;
+                char trash;
                 while (in>>n)
                 {
-                    in>>v;
+                    in>>trash>>v;
                     vector_p.push_back({n,v});
                 }
                  
@@ -82,6 +77,11 @@ namespace svg
 
                 Rectangle* rectangle = new Rectangle({child->IntAttribute("x"),child->IntAttribute("y")},child->IntAttribute("width"),child->IntAttribute("height"),parse_color(child->Attribute("fill")));
                 svg_elements.push_back(rectangle);
+            }
+            if(child->FirstChildElement()!= nullptr)
+            {
+            dump(child, svg_elements);
+
             }
 
             if(child->FirstChildElement()!= nullptr)
