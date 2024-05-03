@@ -17,17 +17,17 @@ namespace svg
     {
         img.draw_ellipse(center_, radius_, fill_);
     }
-    void Ellipse::translate(const Point &center,const Point&t) const
+    void Ellipse::translate(const std::vector<Point> &center,const Point&t) const
     {
-        center.translate(t);
+        center[0].translate(t);
     }
-    void Ellipse::rotate(const Point &center, const Point &origin, int degrees) const
+    void Ellipse::rotate(const std::vector<Point> &center, const Point &origin, int degrees) const
     {
-        center.rotate(origin,degrees);
+        center[0].rotate(origin,degrees);
     }
-    void Ellipse::scale(const Point &center, const Point&origin, int v) const 
+    void Ellipse::scale(const std::vector<Point> &center, const Point&origin, int v) const 
     {
-        center.scale(origin,v);
+        center[0].scale(origin,v);
     }
 
 
