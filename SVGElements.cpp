@@ -1,18 +1,16 @@
 #include "SVGElements.hpp"
-#include <iostream>
 
 namespace svg
 {
     SVGElement::SVGElement()
-    {
-    }
+    = default;
     SVGElement::~SVGElement() 
-    {
-    }
+    = default;
+
     std::vector<SVGElement*>& SVGElement::get_elements()
     {
         std::vector<SVGElement*> v;
-        std::vector<SVGElement*>&  a= v; 
+        std::vector<SVGElement*>&  a = v;
         return a;
     }
 
@@ -52,7 +50,7 @@ namespace svg
                    const Point &center,
                    const int &radius
                    )
-        :Ellipse(fill,center, {radius,radius}){};
+        :Ellipse(fill,center, {radius,radius}){}
 
     Circle* Circle::get_clone()
     {
@@ -167,7 +165,7 @@ namespace svg
         return clone_rectangle;
     }
     
-    Group::Group(){}
+    Group::Group()= default;
 
 
 

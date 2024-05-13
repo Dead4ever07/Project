@@ -12,12 +12,12 @@ namespace svg
     {
 
     public:
-        //Constructor that creats a SVGelement
+        //Constructor that creates a SVGElement
         SVGElement();
-        //Destructor that destrois a SVGelement
-        //It will only be override in the Group subclass
+        //Destructor that destroys a SVGElement
+        //It will only be overridden in the Group subclass
         virtual ~SVGElement();
-        //!Draw function, it will be ouveride by every subclass
+        //!Draw function, it will be overridden by every subclass
         //!@param img Image File name
         virtual void draw(PNGImage &img) const = 0;
         //!Draw
@@ -48,7 +48,7 @@ namespace svg
         void translate( const Point&t)  override;
         void rotate( const Point &origin, int degrees) override;
         void scale(const Point&origin, int v) override;
-        virtual Ellipse* get_clone() override;
+        Ellipse* get_clone() override;
 
 
     protected:
@@ -72,7 +72,7 @@ namespace svg
         void translate(const Point&t)  override;
         void rotate(const Point &origin, int degrees)  override;
         void scale(const Point&origin, int v) override;
-        virtual Polyline* get_clone() override;
+        Polyline* get_clone() override;
         
 
     protected:
@@ -97,7 +97,7 @@ namespace svg
         void translate(const Point&t) override;
         void rotate(const Point &origin, int degrees) override;
         void scale(const Point&origin, int v) override;
-        virtual Polygon* get_clone() override;
+        Polygon* get_clone() override;
         
 
     protected:
@@ -118,8 +118,8 @@ namespace svg
     public:
 
         Group();
-        ~Group();
-        std::vector<SVGElement*>& get_elements();
+        ~Group() override;
+        std::vector<SVGElement*>& get_elements() override;
         void draw(PNGImage &img) const override;
         void translate(const Point& t) override;
         void rotate(const Point &origin, int degrees)  override;
@@ -130,13 +130,7 @@ namespace svg
     protected:
         std::vector<SVGElement*> children_;
     };
-    
 
-
-
-
-
-
-};
+}
 #endif
 

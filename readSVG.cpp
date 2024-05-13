@@ -11,7 +11,7 @@ using namespace tinyxml2;
 namespace svg
 {
     
-    void transform_aplication(const XMLElement* elem, SVGElement* objecto)
+    void transform_application(const XMLElement* elem, SVGElement* objecto)
     {
         if(elem->Attribute("transform"))
         {   
@@ -57,17 +57,17 @@ namespace svg
     {
         if(child->Attribute("id"))
         {    
-            map_references.push_back({child->Attribute("id"), elemento});
+            map_references.emplace_back(child->Attribute("id"), elemento);
         }
     }
 
     // dump is a recursive function that in each recursion step gets the child 
-    // of the previouse element while there are children to iterate trhough
+    // of the previous element while there are children to iterate through
     void dump(XMLElement *elem, vector<SVGElement *>& svg_elements, vector<pair<string, SVGElement*>>& map_references)
     {
-        //after get to the base child(the child wich doesnt have any children) it iterates trhough them 
-        //after iterating trought each child, then gets to the end of the for loop, and return to the father of those children
-        //then it iterates to the next element with the same deapth and if the element has any children it repeats the process
+        //after get to the base child(the child which doesnt have any children) it iterates through them
+        //after iterating through each child, then gets to the end of the for loop, and return to the father of those children
+        //then it iterates to the next element with the same depth and if the element has any children it repeats the process
         for (XMLElement *child = elem->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
         {
           
@@ -131,7 +131,7 @@ namespace svg
                     }
                 }
             }
-            transform_aplication(child, element);
+            transform_application(child, element);
             svg_elements.push_back(element);
             id_get(element, map_references, child);
 
