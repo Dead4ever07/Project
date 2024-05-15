@@ -12,19 +12,32 @@ namespace svg
     {
 
     public:
-        //Constructor that creates a SVGElement
+        // Constructor that creats a SVGelement
         SVGElement();
-        //Destructor that destroys a SVGElement
-        //It will only be overridden in the Group subclass
+        // Destructor that destrois a SVGelement
+        // It will only be override in the Group subclass
         virtual ~SVGElement();
-        //!Draw function, it will be overridden by every subclass
-        //!@param img Image File name
+        //! Draw function, it will be ouveride by every subclass
+        //! @param img Image File name
         virtual void draw(PNGImage &img) const = 0;
-        //!Draw
-        virtual void translate(const Point&t) = 0;        
+        //! Translate function, used to translate an 
+        //! element by x and y unities
+        //! @param t Cordinates to translate
+        virtual void translate(const Point&t) = 0;
+        //! Rotate function, rotates an element with angle v, 
+        //! (clockwise for a positive value and anti-clockwise
+        //! for a negative value) in relation to the rotation origin
+        //! @param origin Rotation Origin
+        //! @param degrees Rotation degrees
         virtual void rotate(const Point &origin, int degrees) = 0;
+        //! Scale function, scales an element with angle v in relation 
+        //! to a scaling origin
+        //! @param origin Scale Origin
+        //! @param v scale factor
         virtual void scale(const Point&origin, int v) = 0;
-        virtual std::vector<SVGElement*>& get_elements();
+        //! Get_clone function, clones the elements 
+        //! In the Group Subclass, it clones the Group and all its inner elements
+        //! @return A dynamically allocated clone of the element
         virtual SVGElement* get_clone() = 0;
 
 
@@ -48,12 +61,15 @@ namespace svg
         void translate( const Point&t)  override;
         void rotate( const Point &origin, int degrees) override;
         void scale(const Point&origin, int v) override;
-        Ellipse* get_clone() override;
+        virtual Ellipse* get_clone() override;
 
 
     protected:
+        //! Color of the Ellipse
         Color fill_;
+        //! Center Point of the Ellipse
         Point center_;
+        //! x and y radius of the Ellipse
         Point radius_;
     };
 
@@ -61,7 +77,6 @@ namespace svg
     {
     public:
         Circle(const Color &fill, const Point &center, const int &radius);
-        Circle* get_clone() override;
     };
 
 
@@ -72,11 +87,13 @@ namespace svg
         void translate(const Point&t)  override;
         void rotate(const Point &origin, int degrees)  override;
         void scale(const Point&origin, int v) override;
-        Polyline* get_clone() override;
+        virtual Polyline* get_clone() override;
         
 
     protected:
+        //! Vector of the points of the Polyline
         std::vector<Point> points_;
+        //! Color of the line
         Color stroke_;
 
     };
@@ -84,8 +101,6 @@ namespace svg
     class Line : public Polyline{
     public:
         Line(const Point &first, const Point &second, const Color &stroke);
-        Line* get_clone() override;
-
     };
 
 
@@ -97,11 +112,13 @@ namespace svg
         void translate(const Point&t) override;
         void rotate(const Point &origin, int degrees) override;
         void scale(const Point&origin, int v) override;
-        Polygon* get_clone() override;
+        virtual Polygon* get_clone() override;
         
 
     protected:
+        //! Vector of the points of the Polygon
         std::vector<Point> points_;
+        //! Color of the line
         Color fill_;
     };
 
@@ -109,17 +126,14 @@ namespace svg
     {
     public:
         Rectangle(const Point &point, const int &width, const int &height, const Color &fill);
-        Rectangle* get_clone() override;
-
     };
 
     class Group : public SVGElement 
     {
     public:
 
-        Group();
-        ~Group() override;
-        std::vector<SVGElement*>& get_elements() override;
+        Group(std::vector<SVGElement*> elements);
+        ~Group();
         void draw(PNGImage &img) const override;
         void translate(const Point& t) override;
         void rotate(const Point &origin, int degrees)  override;
@@ -128,9 +142,9 @@ namespace svg
         
 
     protected:
+        //! Vector of the elements inside the group
         std::vector<SVGElement*> children_;
     };
-
-}
+};
 #endif
 

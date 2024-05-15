@@ -1,18 +1,15 @@
 #include "SVGElements.hpp"
+#include <iostream>
 
 namespace svg
 {
     SVGElement::SVGElement()
-    = default;
-    SVGElement::~SVGElement() 
-    = default;
-
-    std::vector<SVGElement*>& SVGElement::get_elements()
     {
-        std::vector<SVGElement*> v;
-        std::vector<SVGElement*>&  a = v;
-        return a;
     }
+    SVGElement::~SVGElement() 
+    {
+    }
+
 
     // Ellipse (initial code provided)
     Ellipse::Ellipse(const Color &fill,
@@ -50,13 +47,8 @@ namespace svg
                    const Point &center,
                    const int &radius
                    )
-        :Ellipse(fill,center, {radius,radius}){}
+        :Ellipse(fill,center, {radius,radius}){};
 
-    Circle* Circle::get_clone()
-    {
-        Circle* clone_circle = new Circle(this->fill_,this->center_,this->radius_.x);
-        return clone_circle;
-    }
 
     Polyline::Polyline(const std::vector<Point> &points,
                        const Color &stroke )
@@ -108,12 +100,6 @@ namespace svg
     {
     }
 
-    Line* Line::get_clone()
-    {
-        Line *clone_line = new Line(this->points_[0],this->points_[1],this->stroke_);
-        return clone_line;
-    }
-
     Polygon::Polygon(const std::vector<Point> &points,
                      const svg::Color &fill)
          :points_(points), fill_(fill)
@@ -159,13 +145,13 @@ namespace svg
                          const svg::Color &fill)
          : Polygon(std::vector<Point> {point, {point.x + width-1, point.y}, {point.x + width-1, point.y + height-1}, {point.x, point.y + height-1}}, fill) {}
     
-    Rectangle* Rectangle::get_clone()
+
+
+
+    Group::Group(std::vector<SVGElement*> elements)
     {
-        Rectangle* clone_rectangle = new Rectangle(this->points_[0], this->points_[2].x-this->points_[0].x+1,this->points_[2].y-this->points_[0].y+1, this->fill_);
-        return clone_rectangle;
-    }
-    
-    Group::Group()= default;
+        this->children_ = elements;
+    } 
 
 
 
@@ -175,11 +161,6 @@ namespace svg
         {
             delete child;
         }
-    }
-    
-    std::vector<SVGElement*>& Group::get_elements()
-    {
-        return children_;
     }
 
     void Group::draw(PNGImage &img) const 
@@ -215,12 +196,11 @@ namespace svg
 
     Group* Group::get_clone()
     {
-
-        Group* clone_group = new Group();
+        std::vector<SVGElement*> clone_group;
         for(SVGElement* c : this->children_){
-            clone_group->get_elements().push_back(c->get_clone());
+            clone_group.push_back(c->get_clone());
         }
-        return clone_group;
+        return new Group(clone_group);
     }
 
 }

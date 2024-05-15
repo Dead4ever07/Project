@@ -10,8 +10,10 @@ using namespace tinyxml2;
 
 namespace svg
 {
-    
-    void transform_application(const XMLElement* elem, SVGElement* objecto)
+    //!Function that applies the transformations of the element passed
+    //! @param elem Element where the attributes are located
+    //! @param objecto SVGElement where the transformations will be applied
+    void transform_aplication(const XMLElement* elem, SVGElement* objecto)
     {
         if(elem->Attribute("transform"))
         {   
@@ -27,9 +29,6 @@ namespace svg
             }
             string transform_obj = elem->Attribute("transform");
             replace(transform_obj.begin(), transform_obj.end(), ',', ' ');
-            // istringstream itt(transform_obj);
-            // char t;
-            // itt>>t;
             if(transform_obj[0] == 's')
             {
                 istringstream iss(transform_obj.substr(6));
@@ -53,21 +52,23 @@ namespace svg
             }
         }
     }
+    //! By checking the presence of the id attribute, it creates a pair with the id and the respective SVGelement
+    //! and adds it to the vector creating a map of all element with an id.
+    //! @param elemento SVGelement that is going to be mapped
+    //! @param map_references vector of pairs where the elements are going to be stored
+    //! @param child XMLElement were the id attribute is going to be extracted
     void id_get(SVGElement * elemento,vector<pair<string, SVGElement*>>& map_references, const XMLElement* child)
     {
         if(child->Attribute("id"))
         {    
-            map_references.emplace_back(child->Attribute("id"), elemento);
+            map_references.push_back({child->Attribute("id"), elemento});
         }
     }
 
-    // dump is a recursive function that in each recursion step gets the child 
-    // of the previous element while there are children to iterate through
-    void dump(XMLElement *elem, vector<SVGElement *>& svg_elements, vector<pair<string, SVGElement*>>& map_references)
+
+    void SVGread_recursive(XMLElement *elem, vector<SVGElement *>& svg_elements, vector<pair<string, SVGElement*>>& map_references)
     {
-        //after get to the base child(the child which doesnt have any children) it iterates through them
-        //after iterating through each child, then gets to the end of the for loop, and return to the father of those children
-        //then it iterates to the next element with the same depth and if the element has any children it repeats the process
+        
         for (XMLElement *child = elem->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
         {
           
@@ -116,8 +117,9 @@ namespace svg
             }
             else if(name == "g")
             {
-                element= new Group();
-                dump(child, element->get_elements(), map_references);
+                vector<SVGElement*> children;
+                SVGread_recursive(child, children, map_references);
+                element= new Group(children);
             }
             else if(name == "use")
             {
@@ -131,7 +133,7 @@ namespace svg
                     }
                 }
             }
-            transform_application(child, element);
+            transform_aplication(child, element);
             svg_elements.push_back(element);
             id_get(element, map_references, child);
 
@@ -152,6 +154,6 @@ namespace svg
         dimensions.y = xml_elem->IntAttribute("height");
 
         vector<pair<string, SVGElement*>> references;
-        dump(xml_elem, svg_elements,references);
+        SVGread_recursive(xml_elem, svg_elements,references);
     }
 }
