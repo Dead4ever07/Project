@@ -10,7 +10,7 @@ using namespace tinyxml2;
 
 namespace svg
 {
-    //!Function that applies the transformations of the element passed
+    //! Function that applies the transformations of the element passed
     //! @param elem Element where the attributes are located
     //! @param objecto SVGElement where the transformations will be applied
     void transform_aplication(const XMLElement* elem, SVGElement* objecto)
@@ -52,6 +52,7 @@ namespace svg
             }
         }
     }
+    
     //! By checking the presence of the id attribute, it creates a pair with the id and the respective SVGelement
     //! and adds it to the vector creating a map of all element with an id.
     //! @param elemento SVGelement that is going to be mapped
@@ -65,16 +66,30 @@ namespace svg
         }
     }
 
-
+    //! Function that iterates through the elements that are children of the parameter elem
+    //! In the case that the element is a group and it has children, the function
+    //! will recursively pass to the children of the group element.
+    //! For each element there will be created a dynamically allocated variable 
+    //! and according to its name it will call a function in the the class SVGElement.
+    //! Then, the function transform_aplication will be called and the element will be 
+    //! tranformed as needed.
+    //! Afterwards, the dynamically allocated variable will be added to the vector svg_elements
+    //! to be later deleted.
+    //! Lastly, the function id_get will be called to check if element has and id attribute.
+    //! @param elem Pointer to the XMLElement whose children are currently being 
+    //! analysed by the function
+    //! @param svg_elements Vector where the pointers to the SVGElements being analysed 
+    //! are being stored
+    //! @param map_references Vector with pairs which will store only the SVGElements
+    //! that have an identity, and their respective id 
     void SVGread_recursive(XMLElement *elem, vector<SVGElement *>& svg_elements, vector<pair<string, SVGElement*>>& map_references)
     {
-        
         for (XMLElement *child = elem->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
-        {
-          
+        { 
             string name = child->Name();
             SVGElement* element;
-            if( name == "ellipse"){
+            if( name == "ellipse")
+            {
                 element = new Ellipse( parse_color(child->Attribute("fill")),{child->IntAttribute("cx"),child->IntAttribute("cy")}, {child->IntAttribute("rx"),child->IntAttribute("ry")}) ;
             }
             else if(name == "circle")
@@ -87,10 +102,10 @@ namespace svg
                 replace(p.begin(),p.end(), ',', ' ');
                 istringstream in (p);
                 vector<Point> vector_p;
-                int n,v;
-                while (in>>n>>v)
+                int x,y;
+                while (in>>x>>y)
                 {
-                    vector_p.push_back({n,v});
+                    vector_p.push_back({x,y});
                 }
                 element = new Polyline(vector_p,parse_color(child->Attribute("stroke")));
             }
@@ -104,10 +119,10 @@ namespace svg
                 replace(p.begin(),p.end(), ',', ' ');
                 istringstream in(p);
                 vector<Point> vector_p;
-                int n,v;
-                while (in>>n>>v)
+                int x,y;
+                while (in>>x>>y)
                 {
-                    vector_p.push_back({n,v});
+                    vector_p.push_back({x,y});
                 }
                 element = new Polygon(vector_p,parse_color(child->Attribute("fill")));               
             }
@@ -136,8 +151,6 @@ namespace svg
             transform_aplication(child, element);
             svg_elements.push_back(element);
             id_get(element, map_references, child);
-
-
         }
     }
     void readSVG(const string& svg_file, Point& dimensions, vector<SVGElement *>& svg_elements)

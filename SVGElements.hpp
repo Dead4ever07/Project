@@ -12,12 +12,12 @@ namespace svg
     {
 
     public:
-        // Constructor that creats a SVGelement
+        // Constructor that creates a SVGelement
         SVGElement();
-        // Destructor that destrois a SVGelement
-        // It will only be override in the Group subclass
+        // Destructor that destroys a SVGelement
+        // It will only be overriden in the Group subclass
         virtual ~SVGElement();
-        //! Draw function, it will be ouveride by every subclass
+        //! Draw function, it will be overriden by every subclass
         //! @param img Image File name
         virtual void draw(PNGImage &img) const = 0;
         //! Translate function, used to translate an 
@@ -27,12 +27,12 @@ namespace svg
         //! Rotate function, rotates an element with angle v, 
         //! (clockwise for a positive value and anti-clockwise
         //! for a negative value) in relation to the rotation origin
-        //! @param origin Rotation Origin
+        //! @param origin Rotation origin
         //! @param degrees Rotation degrees
         virtual void rotate(const Point &origin, int degrees) = 0;
-        //! Scale function, scales an element with angle v in relation 
+        //! Scale function, scales an element with an angle v in relation 
         //! to a scaling origin
-        //! @param origin Scale Origin
+        //! @param origin Scale origin
         //! @param v scale factor
         virtual void scale(const Point&origin, int v) = 0;
         //! Get_clone function, clones the elements 
