@@ -52,7 +52,7 @@ namespace svg
             }
         }
     }
-    
+
     //! By checking the presence of the id attribute, it creates a pair with the id and the respective SVGelement
     //! and adds it to the vector creating a map of all element with an id.
     //! @param elemento SVGelement that is going to be mapped
@@ -67,10 +67,10 @@ namespace svg
     }
 
     //! Function that iterates through the elements that are children of the parameter elem
-    //! In the case that the element is a group and it has children, the function
-    //! will recursively pass to the children of the group element.
     //! For each element there will be created a dynamically allocated variable 
     //! and according to its name it will call a function in the the class SVGElement.
+    //! In the case that the element is a group and it has children, the function
+    //! will recursively pass to the children of the group element.
     //! Then, the function transform_aplication will be called and the element will be 
     //! tranformed as needed.
     //! Afterwards, the dynamically allocated variable will be added to the vector svg_elements
@@ -137,7 +137,11 @@ namespace svg
                 element= new Group(children);
             }
             else if(name == "use")
-            {
+            {   
+                //In case the element name is "use", the function will check in the vector 
+                //map_references (where the elements that had an id were previously stored)
+                //if there is any element's id is equal to the attribute href.
+                //If true, a clone of of the element with that id will be created
                 string ref = child->Attribute("href");
                 ref = ref.substr(1);
                 for (pair <string, SVGElement*> par : map_references)
