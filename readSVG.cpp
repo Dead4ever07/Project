@@ -53,8 +53,9 @@ namespace svg
         }
     }
 
-    //! By checking the presence of the id attribute, it creates a pair with the id and the respective SVGelement
-    //! and adds it to the vector creating a map of all element with an id.
+    //! By checking the presence of the id attribute, it creates a pair with 
+    //! the id and the respective SVGelement and adds it to the vector creating 
+    //! a map of all element with an id.
     //! @param elemento SVGelement that is going to be mapped
     //! @param map_references vector of pairs where the elements are going to be stored
     //! @param child XMLElement were the id attribute is going to be extracted
@@ -66,9 +67,9 @@ namespace svg
         }
     }
 
-    //! Function that iterates through the elements that are children of the parameter elem
-    //! For each element there will be created a dynamically allocated variable 
-    //! and according to its name it will call a function in the the class SVGElement.
+    //! Function that iterates through the XMLElements that are children of the parameter elem.
+    //! For each element a dynamically allocated variable will be created
+    //! and according to its name a function in the the class SVGElement will be called.
     //! In the case that the element is a group and it has children, the function
     //! will recursively pass to the children of the group element.
     //! Then, the function transform_aplication will be called and the element will be 
