@@ -35,7 +35,7 @@ transformations and duplicated using the <use> element.
 The program will retrieve an SVG file from the input folder and perform the 
 following steps:
 
-- Identify the shape (or group, in which case it will run the function again 
+- Identify the shape (or group, in which case it will run the function recursively 
 for its elements) and parse them into corresponding SVGElements; 
 - Check for any transformation functions and adjust the shape accordingly;
 - Check the presence of an “id” attribute (which is used to store the attributes 
