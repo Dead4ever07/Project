@@ -145,6 +145,6 @@ namespace svg
         //! Vector of the elements inside the group
         std::vector<SVGElement*> children_;
     };
-};
+}
 #endif
 

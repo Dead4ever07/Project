@@ -47,7 +47,9 @@ namespace svg
                    const Point &center,
                    const int &radius
                    )
-        :Ellipse(fill,center, {radius,radius}){};
+        :Ellipse(fill,center, {radius,radius})
+    { 
+    }
 
 
     Polyline::Polyline(const std::vector<Point> &points,
@@ -143,7 +145,9 @@ namespace svg
                          const int &width,
                          const int &height,
                          const svg::Color &fill)
-         : Polygon(std::vector<Point> {point, {point.x + width-1, point.y}, {point.x + width-1, point.y + height-1}, {point.x, point.y + height-1}}, fill) {}
+         : Polygon(std::vector<Point> {point, {point.x + width-1, point.y}, {point.x + width-1, point.y + height-1}, {point.x, point.y + height-1}}, fill)
+    {
+    }
     
 
 

@@ -69,14 +69,14 @@ namespace svg
 
     //! Function that iterates through the XMLElements that are children of the parameter elem.
     //! For each element a dynamically allocated variable will be created
-    //! and according to its name a function in the the class SVGElement will be called.
+    //! and according to its name a constructor of the respective subclass in the the class SVGElement will be called.
     //! In the case that the element is a group and it has children, the function
     //! will recursively pass to the children of the group element.
     //! Then, the function transform_aplication will be called and the element will be 
     //! tranformed as needed.
     //! Afterwards, the dynamically allocated variable will be added to the vector svg_elements
     //! to be later deleted.
-    //! Lastly, the function id_get will be called to check if element has and id attribute.
+    //! Lastly, the function id_get will be called to check if element has an id attribute.
     //! @param elem Pointer to the XMLElement whose children are currently being 
     //! analysed by the function
     //! @param svg_elements Vector where the pointers to the SVGElements being analysed 

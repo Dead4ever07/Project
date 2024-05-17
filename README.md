@@ -1,4 +1,3 @@
-
 # Programming project
 
 ## Group elements
@@ -10,10 +9,13 @@
 
 ## Accomplished tasks
 
+
 This project focuses on converting SVG (Scalable Vector Graphics) images to 
 PNG (Portable Network Graphics) format. The conversion process involves reading 
 SVG elements, applying transformations, and drawing the new image. The class 
 hierarchy for SVG elements is as follows:
+This project focuses on converting SVG (Scalable Vector Graphics) images to PNG (Portable Network Graphics) format. The conversion process involves reading SVG elements, applying transformations, and drawing the new image. The class hierarchy for SVG elements is as follows:
+
 
 Base Class: SVGElement;
 
@@ -41,3 +43,15 @@ for its elements) and parse them into corresponding SVGElements;
 - Check the presence of an “id” attribute (which is used to store the attributes 
 and reference a shape);
 - Draw the final PNG image and save it in the output folder.
+
+
+SVG elements can undergo multiple transformations via the transform attribute, influenced by the transform-origin for certain operations. The supported transformations are translate, rotate, and scale.
+
+Additionally, SVG elements can be grouped using the ‹g› element to share transformations and duplicated using the ‹use› element.
+
+The program will retrieve an SVG file from the input folder and perform the following steps:
+
+- Identify the shape (or group, in which case it will run the function recursively for its elements) and parse them into corresponding SVGElements; 
+- Check for any transformation functions and adjust the shape accordingly;
+- Check the presence of an “id” attribute (which is used to store the attributes and reference a shape);
+- If the ‹use› element is found, it searches for the corresponding id in a map in order to create a dynamically allocated copy of the SVGElement.
